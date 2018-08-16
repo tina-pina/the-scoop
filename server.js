@@ -361,15 +361,11 @@ function upvoteComment(url, request) {
     return {status: 400};
   }
 
-  if(!include(database.comments[commentId].upvotedBy, upvoteUser)) {
-    database.comments[commentId].upvotedBy.push(upvoteUser);
-    if(include(database.comments[commentId].downvotedBy, upvoteUser)) {
-      database.comments[commentId].downvotedBy = removeElement(database.comments[commentId].downvotedBy, upvoteUser)
-    }
+  upvote(database.comments[commentId], upvoteUser)
 
-  }
   return {status: 200, body: { comment: database.comments[commentId]}};
 }
+
 
 function downvoteComment(url, request) {
 
@@ -384,12 +380,8 @@ function downvoteComment(url, request) {
     return {status: 400};
   }
 
-  if(!include(database.comments[commentId].downvotedBy, downvoteUser)) {
-    database.comments[commentId].downvotedBy.push(downvoteUser);
-    if(include(database.comments[commentId].upvotedBy, downvoteUser)) {
-      database.comments[commentId].upvotedBy = removeElement(database.comments[commentId].upvotedBy, downvoteUser)
-    }
-  }
+  downvote(database.comments[commentId], downvoteUser)
+
   return {status: 200, body: { comment: database.comments[commentId]}};
 }
 
